@@ -3,41 +3,37 @@ package cn.xxx.winkawaks.bounceball.module.game;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import cn.xxx.winkawaks.bounceball.R;
+import android.view.Display;
 import cn.xxx.winkawaks.bounceball.module.service.AsyncSoundPool;
+import cn.xxx.winkawaks.bounceball.view.DrawView;
 
 /**
  * Created by 54713 on 2017/10/17.
  */
 
-public class GameActivity extends Activity implements View.OnClickListener {
+public class GameActivity extends Activity {
 
     private static int times;
+    private static int currentTime;
     private AsyncSoundPool soundPool = new AsyncSoundPool(this);
-    private Button mBtn;
+    private DrawView mDrawView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
         Intent intent = this.getIntent();
         times = intent.getIntExtra("item", 0) * 2 + 3;
-        mBtn = (Button) findViewById(R.id.haha);
-        mBtn.setOnClickListener(this);
+        Display display = getWindowManager().getDefaultDisplay();
+        mDrawView = new DrawView(this, display.getWidth(), display.getHeight());
+        mDrawView.setBackground(1);
+        setContentView(mDrawView);
         soundPool.prepare();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("winkawaks", "destory");
+        soundPool.unload();
     }
 
-    @Override
-    public void onClick(View v) {
-        soundPool.execute(1);
-    }
 }

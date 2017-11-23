@@ -228,7 +228,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     protected void onStop() {
         super.onStop();
         fontNormal();
-        soundPool.unload();
+        if (soundOn) {
+            soundPool.unload();
+        }
     }
 
     private void fontBroken() {
