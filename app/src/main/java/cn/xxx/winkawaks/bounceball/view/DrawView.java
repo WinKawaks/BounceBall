@@ -27,16 +27,22 @@ public class DrawView extends View {
                 this.setBackgroundColor(getResources().getColor(R.color.grey));
                 break;
             case 2:
+                this.setBackgroundResource(R.mipmap.vertical);
                 break;
             case 3:
+                this.setBackgroundResource(R.mipmap.horizontal);
                 break;
             case 4:
+                this.setBackgroundResource(R.mipmap.lattice);
                 break;
             case 5:
+                this.setBackgroundResource(R.mipmap.diamond);
                 break;
             case 6:
+                this.setBackgroundResource(R.mipmap.vortex);
                 break;
             case 7:
+                this.setBackgroundResource(R.mipmap.fairyland);
                 break;
         }
     }
