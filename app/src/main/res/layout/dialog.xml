@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@android:color/black"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <cn.xxx.winkawaks.bounceball.view.LedTextView
+        android:gravity="center"
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:textSize="80sp"
+        android:textColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:text="3:4"/>
+
+    <Button
+        android:background="@android:color/white"
+        android:id="@+id/start"
+        android:text="OK"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
