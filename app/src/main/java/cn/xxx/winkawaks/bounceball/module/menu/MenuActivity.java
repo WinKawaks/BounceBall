@@ -22,8 +22,8 @@ import cn.xxx.winkawaks.bounceball.module.fragment.FiveFragment;
 import cn.xxx.winkawaks.bounceball.module.fragment.SevenFragment;
 import cn.xxx.winkawaks.bounceball.module.fragment.ThreeFragment;
 import cn.xxx.winkawaks.bounceball.module.game.GameActivity;
-import cn.xxx.winkawaks.bounceball.module.service.AsyncSoundPool;
 import cn.xxx.winkawaks.bounceball.module.service.BGMService;
+import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
 import cn.xxx.winkawaks.bounceball.module.setting.SettingActivity;
 import cn.xxx.winkawaks.bounceball.view.BulletImageView;
 
@@ -44,7 +44,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     private TextView currentTextView;
     private GestureDetector mGestureDetector;
     private BulletImageView mBullet;
-    private AsyncSoundPool soundPool;
+    private SoundPlayUtil soundPool;
     private Boolean soundOn;
 
     private static final String FONTS_FOLDER = "fonts";
@@ -97,8 +97,8 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
         soundOn = mSharedPreferences.getBoolean("sound", true);
         if (soundOn) {
-            soundPool = new AsyncSoundPool(this);
-            soundPool.prepare();
+            soundPool = new SoundPlayUtil();
+            soundPool.init(this);
         }
     }
 
@@ -114,7 +114,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.button:
                 if (soundOn) {
-                    soundPool.execute(1);
+                    soundPool.play(1);
                 }
 
                 mBtnSelect.setBackground(getResources().getDrawable(R.drawable.button_circle));
@@ -231,6 +231,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         if (soundOn) {
             soundPool.unload();
         }
+        soundPool = null;
     }
 
     private void fontBroken() {

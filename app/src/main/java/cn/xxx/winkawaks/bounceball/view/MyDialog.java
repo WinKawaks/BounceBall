@@ -2,12 +2,10 @@ package cn.xxx.winkawaks.bounceball.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import cn.xxx.winkawaks.bounceball.R;
 
 /**
@@ -26,12 +24,8 @@ public class MyDialog extends Dialog {
     public static class Builder {
         private Context context;
         private String message;
-        private String positiveButtonText;
         private View contentView;
-
-        private DialogInterface.OnClickListener
-            positiveButtonClickListener,
-            negativeButtonClickListener;
+        private View.OnClickListener positiveButtonClickListener;
 
         public Builder(Context context) {
             this.context = context;
@@ -53,22 +47,9 @@ public class MyDialog extends Dialog {
         }
 
         /**
-         * Set the positive button resource and it's listener
-         */
-        public Builder setPositiveButton(int positiveButtonText,
-                                         DialogInterface.OnClickListener listener) {
-            this.positiveButtonText = (String) context
-                .getText(positiveButtonText);
-            this.positiveButtonClickListener = listener;
-            return this;
-        }
-
-        /**
          * Set the positive button text and it's listener
          */
-        public Builder setPositiveButton(String positiveButtonText,
-                                         DialogInterface.OnClickListener listener) {
-            this.positiveButtonText = positiveButtonText;
+        public Builder setPositiveButton(View.OnClickListener listener) {
             this.positiveButtonClickListener = listener;
             return this;
         }
@@ -85,12 +66,9 @@ public class MyDialog extends Dialog {
             View layout = inflater.inflate(R.layout.dialog, null);
 
             // set the dialog title
-            ((TextView) layout.findViewById(R.id.score)).setText(message);
+            ((LedTextView) layout.findViewById(R.id.score)).setText(message);
             // set the confirm button
-            ((Button) layout.findViewById(R.id.start)).setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                }
-            });
+            ((Button) layout.findViewById(R.id.start)).setOnClickListener(positiveButtonClickListener);
 
             return dialog;
         }

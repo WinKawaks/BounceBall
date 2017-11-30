@@ -4,15 +4,16 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
 import cn.xxx.winkawaks.bounceball.R;
-import cn.xxx.winkawaks.bounceball.module.service.AsyncSoundPool;
+import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
 
 public class DrawView extends View {
     private Rectangle mRectangle;
     public int width;
     public int height;
+    public SoundPlayUtil soundPlayUtil;
     public static Boolean STOP = false;
 
-    public DrawView(Context context, int width, int height, AsyncSoundPool soundPool) {
+    public DrawView(Context context, int width, int height, SoundPlayUtil soundPool) {
         super(context);
         this.width = width;
         this.height = height;
