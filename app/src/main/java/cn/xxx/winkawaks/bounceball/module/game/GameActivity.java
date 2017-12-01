@@ -1,14 +1,11 @@
 package cn.xxx.winkawaks.bounceball.module.game;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import cn.xxx.winkawaks.bounceball.R;
 import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
 import cn.xxx.winkawaks.bounceball.view.DrawView;
 import cn.xxx.winkawaks.bounceball.view.MyDialog;
@@ -42,20 +39,20 @@ public class GameActivity extends Activity {
         super.onStop();
         DrawView.STOP = true;
         soundPool.play(3);
-        LayoutInflater inflater=(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.dialog, null);
         MyDialog.Builder builder = new MyDialog.Builder(this);
-        builder.setContentView(view);
         builder.setMessage("3:4");
-        builder.setPositiveButton(new View.OnClickListener() {
+        builder.setPositiveButton(new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(DialogInterface dialog, int which) {
                 soundPool.play(4);
                 DrawView.STOP = false;
+                dialog.dismiss();
                 mDrawView.invalidate();
             }
         });
         MyDialog myDialog = builder.create();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
         myDialog.show();
     }
 

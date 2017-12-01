@@ -2,6 +2,7 @@ package cn.xxx.winkawaks.bounceball.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,7 @@ public class MyDialog extends Dialog {
     public static class Builder {
         private Context context;
         private String message;
-        private View contentView;
-        private View.OnClickListener positiveButtonClickListener;
+        private DialogInterface.OnClickListener positiveButtonClickListener;
 
         public Builder(Context context) {
             this.context = context;
@@ -41,15 +41,10 @@ public class MyDialog extends Dialog {
             return this;
         }
 
-        public Builder setContentView(View v) {
-            this.contentView = v;
-            return this;
-        }
-
         /**
          * Set the positive button text and it's listener
          */
-        public Builder setPositiveButton(View.OnClickListener listener) {
+        public Builder setPositiveButton(DialogInterface.OnClickListener listener) {
             this.positiveButtonClickListener = listener;
             return this;
         }
@@ -68,8 +63,14 @@ public class MyDialog extends Dialog {
             // set the dialog title
             ((LedTextView) layout.findViewById(R.id.score)).setText(message);
             // set the confirm button
-            ((Button) layout.findViewById(R.id.start)).setOnClickListener(positiveButtonClickListener);
+            ((Button) layout.findViewById(R.id.start)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    positiveButtonClickListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                }
+            });
 
+            dialog.setContentView(layout);
             return dialog;
         }
 
