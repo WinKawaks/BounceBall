@@ -34,12 +34,34 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <Button
-        android:background="@android:color/white"
-        android:id="@+id/start"
-        android:text="OK"
-        android:textColor="@android:color/black"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:background="@android:color/white"
+            android:id="@+id/btn_goback"
+            android:text="@string/go_back"
+            android:textColor="@android:color/black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:background="@android:color/black"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:background="@android:color/white"
+            android:id="@+id/btn_start"
+            android:text="@string/go_on"
+            android:textColor="@android:color/black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </LinearLayout>

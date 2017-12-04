@@ -14,4 +14,6 @@
     <string name="email">发送邮件至开发者</string>
     <string name="mail_support_feedback_to">547137393@qq.com</string>
     <string name="mail_support_feedback_subject">I\'ve something to tell you.</string>
+    <string name="go_back">返回主菜单</string>
+    <string name="go_on">继续</string>
 </resources>

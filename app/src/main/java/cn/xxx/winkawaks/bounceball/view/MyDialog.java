@@ -28,6 +28,7 @@ public class MyDialog extends Dialog {
         private int score1;
         private int score2;
         private DialogInterface.OnClickListener positiveButtonClickListener;
+        private DialogInterface.OnClickListener negativeButtonClickListener;
 
         public Builder(Context context) {
             this.context = context;
@@ -43,11 +44,13 @@ public class MyDialog extends Dialog {
             return this;
         }
 
-        /**
-         * Set the positive button text and it's listener
-         */
         public Builder setPositiveButton(DialogInterface.OnClickListener listener) {
             this.positiveButtonClickListener = listener;
+            return this;
+        }
+
+        public Builder setNegativeButton(DialogInterface.OnClickListener listener) {
+            this.negativeButtonClickListener = listener;
             return this;
         }
 
@@ -65,10 +68,16 @@ public class MyDialog extends Dialog {
             ((ImageView)layout.findViewById(R.id.score_1)).setImageResource(scoreRes(score1));
             ((ImageView)layout.findViewById(R.id.score_2)).setImageResource(scoreRes(score2));
             // set the confirm button
-            ((Button) layout.findViewById(R.id.start)).setOnClickListener(new View.OnClickListener() {
+            ((Button) layout.findViewById(R.id.btn_start)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     positiveButtonClickListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                }
+            });
+            ((Button) layout.findViewById(R.id.btn_goback)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    negativeButtonClickListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
                 }
             });
 
@@ -78,7 +87,7 @@ public class MyDialog extends Dialog {
 
     }
 
-    public static int scoreRes(int score) {
+    private static int scoreRes(int score) {
         int scoreResource = 0;
         switch (score) {
             case 0:
