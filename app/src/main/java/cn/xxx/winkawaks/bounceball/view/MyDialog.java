@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import cn.xxx.winkawaks.bounceball.R;
 
 /**
@@ -24,20 +25,21 @@ public class MyDialog extends Dialog {
 
     public static class Builder {
         private Context context;
-        private String message;
+        private int score1;
+        private int score2;
         private DialogInterface.OnClickListener positiveButtonClickListener;
 
         public Builder(Context context) {
             this.context = context;
         }
 
-        public Builder setMessage(String message) {
-            this.message = message;
+        public Builder setScore1(int score1) {
+            this.score1 = score1;
             return this;
         }
 
-        public Builder setMessage(int message) {
-            this.message = (String) context.getText(message);
+        public Builder setScore2(int score2) {
+            this.score2 = score2;
             return this;
         }
 
@@ -60,8 +62,8 @@ public class MyDialog extends Dialog {
                 R.style.MyDialog);
             View layout = inflater.inflate(R.layout.dialog, null);
 
-            // set the dialog title
-            ((LedTextView) layout.findViewById(R.id.score)).setText(message);
+            ((ImageView)layout.findViewById(R.id.score_1)).setImageResource(scoreRes(score1));
+            ((ImageView)layout.findViewById(R.id.score_2)).setImageResource(scoreRes(score2));
             // set the confirm button
             ((Button) layout.findViewById(R.id.start)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,5 +76,36 @@ public class MyDialog extends Dialog {
             return dialog;
         }
 
+    }
+
+    public static int scoreRes(int score) {
+        int scoreResource = 0;
+        switch (score) {
+            case 0:
+                scoreResource = R.mipmap.score_0;
+                break;
+            case 1:
+                scoreResource = R.mipmap.score_1;
+                break;
+            case 2:
+                scoreResource = R.mipmap.score_2;
+                break;
+            case 3:
+                scoreResource = R.mipmap.score_3;
+                break;
+            case 4:
+                scoreResource = R.mipmap.score_4;
+                break;
+            case 5:
+                scoreResource = R.mipmap.score_5;
+                break;
+            case 6:
+                scoreResource = R.mipmap.score_6;
+                break;
+            case 7:
+                scoreResource = R.mipmap.score_7;
+                break;
+        }
+        return scoreResource;
     }
 }

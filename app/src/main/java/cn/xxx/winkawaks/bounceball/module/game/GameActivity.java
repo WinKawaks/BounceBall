@@ -31,6 +31,7 @@ public class GameActivity extends Activity {
         Display display = getWindowManager().getDefaultDisplay();
         mDrawView = new DrawView(this, display.getWidth(), display.getHeight(), soundPool);
         mDrawView.setBackground(1);
+        DrawView.STOP = false;
         setContentView(mDrawView);
     }
 
@@ -40,7 +41,8 @@ public class GameActivity extends Activity {
         DrawView.STOP = true;
         soundPool.play(3);
         MyDialog.Builder builder = new MyDialog.Builder(this);
-        builder.setMessage("3:4");
+        builder.setScore1(3);
+        builder.setScore2(4);
         builder.setPositiveButton(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -48,6 +50,8 @@ public class GameActivity extends Activity {
                 DrawView.STOP = false;
                 dialog.dismiss();
                 mDrawView.invalidate();
+
+                //TODO 加入最后一局退到MenuActivity功能。
             }
         });
         MyDialog myDialog = builder.create();
@@ -68,6 +72,7 @@ public class GameActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             this.finish();
+            //TODO 加入弹出Dialog功能。
         }
         return super.onKeyDown(keyCode, event);
     }

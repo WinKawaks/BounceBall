@@ -239,7 +239,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             AssetManager assets = this.getAssets();
             final Typeface fontDigitalX = Typeface.createFromAsset(assets, FONT_BROKEN);
             currentTextView.setTypeface(fontDigitalX);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet_1);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet);
             Bitmap bulletBitmap = scaleImg(bitmap, 100, 100);
             mBullet.setImage(bulletBitmap);
             mBullet.setVisibility(View.VISIBLE);
