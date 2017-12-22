@@ -40,10 +40,28 @@ public class GameActivity extends Activity {
         setContentView(mDrawView);
     }
 
+    /**
+     * 继续游戏，关卡刷新。
+     * @param intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        currentTime = intent.getIntExtra("current", 1);
+        Display display = getWindowManager().getDefaultDisplay();
+        mDrawView = new DrawView(this, display.getWidth(), display.getHeight(), soundPool);
+        mDrawView.setBackground(currentTime);
+        DrawView.STOP = false;
+        setContentView(mDrawView);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
-        dialogPop(this, FLAG_PAUSE, 4, 3, soundPool, mDrawView);
+        if (DrawView.STOP) {
+        } else {
+            dialogPop(this, FLAG_PAUSE, 4, 3, soundPool, mDrawView);
+        }
     }
 
     @Override
@@ -80,10 +98,8 @@ public class GameActivity extends Activity {
                     if (currentTime < times) {
                         currentTime++;
                         Intent intent = new Intent(context, GameActivity.class);
-                        intent.putExtra("item", times);
-                        //TODO 切换游戏背景没有终结 思考一下为什么新的Activity没有动画绘制。
+                        intent.putExtra("current", currentTime);
                         Log.i("winkawaks", "current = " + currentTime + "  times" + times);
-                        ((Activity) context).finish();
                         context.startActivity(intent);
                     } else {
                         currentTime = 1;

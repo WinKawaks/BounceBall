@@ -21,6 +21,7 @@
         </activity>
 
         <activity
+            android:launchMode="singleTask"
             android:name=".module.game.GameActivity"
             android:screenOrientation="portrait" />
 
