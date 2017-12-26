@@ -16,4 +16,29 @@
     <string name="mail_support_feedback_subject">I\'ve something to tell you.</string>
     <string name="go_back">返回主菜单</string>
     <string name="go_on">继续</string>
+    
+    <string name="chapter1">混沌</string>
+    <string name="chapter2">纵贯</string>
+    <string name="chapter3">水平</string>
+    <string name="chapter4">矩阵</string>
+    <string name="chapter5">钻石</string>
+    <string name="chapter6">旋涡</string>
+    <string name="chapter7">梦境</string>
+
+    <string name="subtitle1">时空始</string>
+    <string name="subtitle2">天地开</string>
+    <string name="subtitle3">万物生</string>
+    <string name="subtitle4">盛世兴</string>
+    <string name="subtitle5">遇伊人</string>
+    <string name="subtitle6">长相思</string>
+    <string name="subtitle7">皆因梦</string>
+
+    <string name="abstract1">时空伊始\n万物相浑沦而未相离也\n视之不见\n听之不闻\n循之不得</string>
+    <string name="abstract2">盘古挥斧\n混沌初分\n阳清为天\n阴浊为地\n至此天地开辟</string>
+    <string name="abstract3">天地之象分\n阴阳之侯列\n变化之由表\n死生之昭彰</string>
+    <string name="abstract4">声色犬马\n世人趋之若鹜\n心向往之\n此间纵横排列\n皆是丰碑</string>
+    <string name="abstract5">少年仗剑立\n玉人踏歌来\n气味相投\n心心相印\n遂死生契阔</string>
+    <string name="abstract6">世事仓惶\n万物皆被吞噬\n我虽风尘仆仆\n却念念不忘</string>
+    <string name="abstract7">万事万物皆因梦而生\n亦因梦而灭\n梦如何</string>
+
 </resources>
