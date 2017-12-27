@@ -24,7 +24,6 @@ public class TitleTextView extends ViewGroup {
         + File.separator + "title.ttf";
 
     private Context context;
-    private int start;
 
     public TitleTextView(Context context) {
         super(context);
@@ -73,7 +72,6 @@ public class TitleTextView extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int measureWidth = measureWidth(widthMeasureSpec);
-        start = measureWidth;
         int measureHeight = measureHeight(heightMeasureSpec);
         // 计算自定义的ViewGroup中所有子控件的大小
         measureChildren(widthMeasureSpec, heightMeasureSpec);

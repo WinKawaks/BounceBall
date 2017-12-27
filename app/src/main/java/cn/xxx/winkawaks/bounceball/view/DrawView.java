@@ -2,6 +2,8 @@ package cn.xxx.winkawaks.bounceball.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.View;
 import cn.xxx.winkawaks.bounceball.R;
 import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
@@ -13,8 +15,19 @@ public class DrawView extends View {
     public SoundPlayUtil soundPlayUtil;
     public static Boolean STOP = false;
 
-    public DrawView(Context context, int width, int height, SoundPlayUtil soundPool) {
+    public DrawView(Context context) {
         super(context);
+    }
+
+    public DrawView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public DrawView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public void init(Context context, int width, int height, SoundPlayUtil soundPool) {
         this.width = width;
         this.height = height;
         mRectangle = new Rectangle(context, this);
@@ -22,6 +35,7 @@ public class DrawView extends View {
         mRectangle.setSpeedY(10);
         mRectangle.setX(width / 2 - Rectangle.MAX_SIZE / 2);
         mRectangle.setY(height / 2 - Rectangle.MAX_SIZE / 2);
+        soundPlayUtil = soundPool;
     }
 
     public void setBackground(int time) {
