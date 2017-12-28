@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.xxx.winkawaks.bounceball.R;
 import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
@@ -31,6 +35,7 @@ public class GameActivity extends Activity {
     private TextView mTVChapterTitle;
     private TextView mTVChapterSubtitle;
     private TextView mTVChapterAbstract;
+    private LinearLayout mChapterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class GameActivity extends Activity {
         mTVChapterTitle = (TextView) findViewById(R.id.chapter_title);
         mTVChapterSubtitle = (TextView) findViewById(R.id.chapter_subtitle);
         mTVChapterAbstract = (TextView) findViewById(R.id.chapter_abstract);
+        mChapterView = (LinearLayout) findViewById(R.id.chapter_view);
         soundPool = new SoundPlayUtil();
         soundPool.init(this);
         Intent intent = this.getIntent();
@@ -49,7 +55,7 @@ public class GameActivity extends Activity {
         mDrawView.init(this, display.getWidth(), display.getHeight(), soundPool);
         mDrawView.setBackground(currentTime);
         setChapterInformation(currentTime);
-        DrawView.STOP = false;
+        chapterShow();
     }
 
     /**
@@ -64,7 +70,7 @@ public class GameActivity extends Activity {
         mDrawView.init(this, display.getWidth(), display.getHeight(), soundPool);
         mDrawView.setBackground(currentTime);
         setChapterInformation(currentTime);
-        DrawView.STOP = false;
+        chapterShow();
     }
 
     @Override
@@ -111,7 +117,6 @@ public class GameActivity extends Activity {
                         currentTime++;
                         Intent intent = new Intent(context, GameActivity.class);
                         intent.putExtra("current", currentTime);
-                        Log.i("winkawaks", "current = " + currentTime + "  times" + times);
                         context.startActivity(intent);
                     } else {
                         currentTime = 1;
@@ -182,4 +187,27 @@ public class GameActivity extends Activity {
         }
     }
 
+    private void chapterShow() {
+        DrawView.STOP = true;
+        AlphaAnimation alphaAnimation = (AlphaAnimation) AnimationUtils.loadAnimation(this, R.anim.chapter_anim);
+        mChapterView.startAnimation(alphaAnimation);
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mChapterView.setVisibility(View.GONE);
+                DrawView.STOP = false;
+                mDrawView.invalidate();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
 }
