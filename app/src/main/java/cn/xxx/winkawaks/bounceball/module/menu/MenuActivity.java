@@ -18,13 +18,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.xxx.winkawaks.bounceball.R;
+import cn.xxx.winkawaks.bounceball.TestActivity;
 import cn.xxx.winkawaks.bounceball.module.fragment.FiveFragment;
 import cn.xxx.winkawaks.bounceball.module.fragment.SevenFragment;
 import cn.xxx.winkawaks.bounceball.module.fragment.ThreeFragment;
 import cn.xxx.winkawaks.bounceball.module.game.GameActivity;
 import cn.xxx.winkawaks.bounceball.module.service.BGMService;
 import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
-import cn.xxx.winkawaks.bounceball.module.setting.SettingActivity;
 import cn.xxx.winkawaks.bounceball.view.BulletImageView;
 
 import java.io.File;
@@ -145,7 +145,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 }, 2500);
                 break;
             case R.id.btn_setting:
-                Intent intent = new Intent(this, SettingActivity.class);
+                Intent intent = new Intent(this, TestActivity.class);
                 startActivity(intent);
                 break;
         }
