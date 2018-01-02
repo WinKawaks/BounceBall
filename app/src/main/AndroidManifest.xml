@@ -33,11 +33,7 @@
             android:name=".module.setting.SettingActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".TestActivity"
-            android:screenOrientation="portrait" />
-
-        <service android:name=".module.service.BGMService"/>
+        <service android:name=".module.sound.BGMService"/>
     </application>
 
 </manifest>

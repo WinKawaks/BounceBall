@@ -1,4 +1,4 @@
-package cn.xxx.winkawaks.bounceball.module.service;
+package cn.xxx.winkawaks.bounceball.module.sound;
 
 import android.app.Service;
 import android.content.Intent;

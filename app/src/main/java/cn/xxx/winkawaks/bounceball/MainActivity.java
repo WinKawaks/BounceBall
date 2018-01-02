@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.AnimationUtils;
 import cn.xxx.winkawaks.bounceball.module.menu.MenuActivity;
-import cn.xxx.winkawaks.bounceball.module.service.BGMService;
+import cn.xxx.winkawaks.bounceball.module.sound.BGMService;
 import cn.xxx.winkawaks.bounceball.view.TitleTextView;
 
 public class MainActivity extends Activity {

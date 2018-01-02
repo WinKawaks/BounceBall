@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import cn.xxx.winkawaks.bounceball.module.service.BGMService;
+import cn.xxx.winkawaks.bounceball.module.sound.BGMService;
 
 /**
  * Created by 54713 on 2017/11/13.

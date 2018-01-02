@@ -1,4 +1,4 @@
-package cn.xxx.winkawaks.bounceball.module.service;
+package cn.xxx.winkawaks.bounceball.module.sound;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -9,7 +9,7 @@ import cn.xxx.winkawaks.bounceball.R;
  * Created by 54713 on 2017/11/29.
  */
 
-public class SoundPlayUtil {
+public class SoundPlayer {
     // SoundPool对象
     public SoundPool mSoundPlayer = new SoundPool(4,
         AudioManager.STREAM_MUSIC, 1);

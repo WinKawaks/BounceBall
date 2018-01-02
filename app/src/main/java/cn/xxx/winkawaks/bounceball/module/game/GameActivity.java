@@ -4,17 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.xxx.winkawaks.bounceball.R;
-import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
+import cn.xxx.winkawaks.bounceball.module.sound.SoundPlayer;
 import cn.xxx.winkawaks.bounceball.view.DrawView;
 import cn.xxx.winkawaks.bounceball.view.MyDialog;
 
@@ -22,37 +25,63 @@ import cn.xxx.winkawaks.bounceball.view.MyDialog;
  * Created by 54713 on 2017/10/17.
  */
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements View.OnTouchListener {
 
     private static int times;
     private static int currentTime = 1;
-    private static final int FLAG_PAUSE = 1;
-    private static final int FLAG_OVER = 2;
+    public static final int FLAG_PAUSE = 1;
+    public static final int FLAG_OVER = 2;
 
-    private SoundPlayUtil soundPool;
+    private SoundPlayer soundPool;
     private DrawView mDrawView;
     private TextView mTVChapter;
     private TextView mTVChapterTitle;
     private TextView mTVChapterSubtitle;
     private TextView mTVChapterAbstract;
     private LinearLayout mChapterView;
+    private Boolean soundOn;
+    private View mTab1, mTab2;
+    private int x1, x2;
+    private RelativeLayout mController1, mController2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        initView();
+        initListener();
+    }
+
+    private void initListener() {
+        mTab1.setOnTouchListener(this);
+        mTab2.setOnTouchListener(this);
+    }
+
+    private void initView() {
         mDrawView = (DrawView) findViewById(R.id.game_background);
         mTVChapter = (TextView) findViewById(R.id.chapter);
         mTVChapterTitle = (TextView) findViewById(R.id.chapter_title);
         mTVChapterSubtitle = (TextView) findViewById(R.id.chapter_subtitle);
         mTVChapterAbstract = (TextView) findViewById(R.id.chapter_abstract);
         mChapterView = (LinearLayout) findViewById(R.id.chapter_view);
-        soundPool = new SoundPlayUtil();
-        soundPool.init(this);
+        mTab1 = findViewById(R.id.tab_1);
+        mTab2 = findViewById(R.id.tab_2);
+        mController1 = (RelativeLayout) findViewById(R.id.controller_1);
+        mController2 = (RelativeLayout) findViewById(R.id.controller_2);
+        mController1.setVisibility(View.INVISIBLE);
+        mController2.setVisibility(View.INVISIBLE);
+
+        SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
+        soundOn = mSharedPreferences.getBoolean("sound", true);
+        if (soundOn) {
+            soundPool = new SoundPlayer();
+            soundPool.init(this);
+        }
+
         Intent intent = this.getIntent();
         times = intent.getIntExtra("item", 0) * 2 + 3;
         Display display = getWindowManager().getDefaultDisplay();
-        mDrawView.init(this, display.getWidth(), display.getHeight(), soundPool);
+        mDrawView.init(this, display.getWidth(), display.getHeight(), mTab1, mTab2, soundOn, soundPool);
         mDrawView.setBackground(currentTime);
         setChapterInformation(currentTime);
         chapterShow();
@@ -67,10 +96,29 @@ public class GameActivity extends Activity {
         super.onNewIntent(intent);
         currentTime = intent.getIntExtra("current", 1);
         Display display = getWindowManager().getDefaultDisplay();
-        mDrawView.init(this, display.getWidth(), display.getHeight(), soundPool);
+
+        SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
+        soundOn = mSharedPreferences.getBoolean("sound", true);
+        if (soundOn) {
+            soundPool = new SoundPlayer();
+            soundPool.init(this);
+        }
+
+        mDrawView.init(this, display.getWidth(), display.getHeight(), mTab1, mTab2, soundOn, soundPool);
         mDrawView.setBackground(currentTime);
         setChapterInformation(currentTime);
         chapterShow();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
+        soundOn = mSharedPreferences.getBoolean("sound", true);
+        if (soundOn) {
+            soundPool = new SoundPlayer();
+            soundPool.init(this);
+        }
     }
 
     @Override
@@ -78,36 +126,45 @@ public class GameActivity extends Activity {
         super.onStop();
         if (DrawView.STOP) {
         } else {
-            dialogPop(this, FLAG_PAUSE, 4, 3, soundPool, mDrawView);
+            dialogPop(this, FLAG_PAUSE, 4, 3, soundOn, soundPool, mDrawView);
         }
+        if (soundOn) {
+            soundPool.unload();
+        }
+        soundPool = null;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        soundPool.unload();
-        soundPool = null;
         mDrawView = null;
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            dialogPop(this, FLAG_OVER, 4, 3, soundPool, mDrawView);
+            if (mChapterView.getVisibility() == View.VISIBLE) {
+            } else {
+                dialogPop(this, FLAG_OVER, 4, 3, soundOn, soundPool, mDrawView);
+            }
         }
-        return super.onKeyDown(keyCode, event);
+        return true;
     }
 
-    public static void dialogPop(final Context context, final int flag, final int score1, final int score2, final SoundPlayUtil soundPlayUtil, final DrawView drawView) {
+    public static void dialogPop(final Context context, final int flag, final int score1, final int score2, final Boolean soundOn, final SoundPlayer soundPlayer, final DrawView drawView) {
         DrawView.STOP = true;
-        soundPlayUtil.play(3);
+        if (soundOn) {
+            soundPlayer.play(3);
+        }
         MyDialog.Builder builder = new MyDialog.Builder(context);
         builder.setScore1(score1);
         builder.setScore2(score2);
         builder.setPositiveButton(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                soundPlayUtil.play(4);
+                if (soundOn) {
+                    soundPlayer.play(4);
+                }
                 DrawView.STOP = false;
                 dialog.dismiss();
                 if (flag == FLAG_PAUSE) {
@@ -128,7 +185,9 @@ public class GameActivity extends Activity {
         builder.setNegativeButton(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                soundPlayUtil.play(4);
+                if (soundOn) {
+                    soundPlayer.play(4);
+                }
                 currentTime = 1;
                 dialog.dismiss();
                 ((Activity) context).finish();
@@ -200,6 +259,8 @@ public class GameActivity extends Activity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mChapterView.setVisibility(View.GONE);
+                mController1.setVisibility(View.VISIBLE);
+                mController2.setVisibility(View.VISIBLE);
                 DrawView.STOP = false;
                 mDrawView.invalidate();
             }
@@ -209,5 +270,52 @@ public class GameActivity extends Activity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case R.id.tab_1:
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = (int) event.getRawX();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        int x = (int) event.getRawX();
+                        // 获取手指移动的距离
+                        int dx = x - x1;
+                        // 得到imageView最开始的各顶点的坐标
+                        int l = mTab1.getLeft();
+                        int r = mTab1.getRight();
+                        int t = mTab1.getTop();
+                        int b = mTab1.getBottom();
+                        mTab1.layout(l + dx, t, r + dx, b);
+                        // 获取移动后的位置
+                        x1 = (int) event.getRawX();
+                        break;
+                }
+                break;
+            case R.id.tab_2:
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x2 = (int) event.getRawX();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        int x = (int) event.getRawX();
+                        // 获取手指移动的距离
+                        int dx = x - x2;
+                        int l = mTab2.getLeft();
+                        int r = mTab2.getRight();
+                        int t = mTab2.getTop();
+                        int b = mTab2.getBottom();
+                        // 更改imageView在窗体的位置
+                        mTab2.layout(l + dx, t, r + dx, b);
+                        // 获取移动后的位置
+                        x2 = (int) event.getRawX();
+                        break;
+                }
+                break;
+        }
+        return true;
     }
 }

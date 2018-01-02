@@ -4,8 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
+import cn.xxx.winkawaks.bounceball.module.game.GameActivity;
+import cn.xxx.winkawaks.bounceball.module.sound.SoundPlayer;
 
 public class Rectangle extends View {
     public static final int MAX_SIZE = 40;
@@ -23,13 +24,22 @@ public class Rectangle extends View {
     private boolean goRight = true;
     private boolean goDown = true;
     private DrawView mDrawView;
+    private View tab1, tab2;
 
     private Paint mInnerPaint;
     private RectF mDrawRect;
+    private Context mContext;
+    private Boolean soundOn;
+    private SoundPlayer soundPlayer;
 
-    public Rectangle(Context context, DrawView drawView) {
+    public Rectangle(Context context, DrawView drawView, View tab1, View tab2, Boolean soundOn, SoundPlayer soundPool) {
         super(context);
+        mContext = context;
         mDrawView = drawView;
+        this.tab1 = tab1;
+        this.tab2 = tab2;
+        this.soundOn = soundOn;
+        this.soundPlayer = soundPool;
         mInnerPaint = new Paint();
         mDrawRect = new RectF();
 
@@ -63,26 +73,35 @@ public class Rectangle extends View {
 
     private void moveTo(int goX, int goY) {
 
-        // check the borders, and set the direction if a border has reached
+        //碰撞右侧
         if (mCoordX > (mDrawView.width - MAX_SIZE)) {
             goRight = false;
             collision(RIGHT);
         }
-
+        //碰撞左侧
         if (mCoordX < 0) {
             goRight = true;
             collision(LEFT);
         }
-
-        if (mCoordY > (mDrawView.height - MAX_SIZE)) {
-            goDown = false;
-            mInnerPaint.setARGB(ALPHA, 255, 255, 255);
-            collision(DOWN);
+        //碰撞下方
+        if (mCoordY > (mDrawView.height - MAX_SIZE - tab1.getHeight())) {
+            if (tab1.getLeft() <= mCoordX + MAX_SIZE && tab2.getRight() >= mCoordX) {
+                goDown = false;
+                mInnerPaint.setARGB(ALPHA, 255, 255, 255);
+                collision(DOWN);
+            } else {
+                GameActivity.dialogPop(mContext, GameActivity.FLAG_OVER, 4, 3, soundOn, soundPlayer, mDrawView);
+            }
         }
-        if (mCoordY < 0) {
-            goDown = true;
-            mInnerPaint.setARGB(ALPHA, 0, 0, 0);
-            collision(UP);
+        //碰撞上方
+        if (mCoordY < tab2.getHeight()) {
+            if (tab2.getLeft() <= mCoordX + MAX_SIZE && tab2.getRight() >= mCoordX) {
+                goDown = true;
+                mInnerPaint.setARGB(ALPHA, 0, 0, 0);
+                collision(UP);
+            } else {
+                GameActivity.dialogPop(mContext, GameActivity.FLAG_OVER, 4, 3, soundOn, soundPlayer, mDrawView);
+            }
         }
 
         // move the x and y
@@ -132,20 +151,25 @@ public class Rectangle extends View {
         return mRealSize;
     }
 
-    public void collision(int direction) {
+    private void collision(int direction) {
+        collisionSound(soundOn, soundPlayer);
         switch (direction) {
             case UP:
-                Log.i("direct", "up");
+                //加速
                 break;
             case DOWN:
-                Log.i("direct", "down");
+                //加速
                 break;
             case LEFT:
-                Log.i("direct", "left");
                 break;
             case RIGHT:
-                Log.i("direct", "right");
                 break;
+        }
+    }
+
+    private void collisionSound(Boolean soundOn, SoundPlayer soundPlayer) {
+        if (soundOn) {
+            soundPlayer.play(2);
         }
     }
 }

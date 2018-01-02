@@ -18,13 +18,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.xxx.winkawaks.bounceball.R;
-import cn.xxx.winkawaks.bounceball.TestActivity;
 import cn.xxx.winkawaks.bounceball.module.fragment.FiveFragment;
 import cn.xxx.winkawaks.bounceball.module.fragment.SevenFragment;
 import cn.xxx.winkawaks.bounceball.module.fragment.ThreeFragment;
 import cn.xxx.winkawaks.bounceball.module.game.GameActivity;
-import cn.xxx.winkawaks.bounceball.module.service.BGMService;
-import cn.xxx.winkawaks.bounceball.module.service.SoundPlayUtil;
+import cn.xxx.winkawaks.bounceball.module.setting.SettingActivity;
+import cn.xxx.winkawaks.bounceball.module.sound.BGMService;
+import cn.xxx.winkawaks.bounceball.module.sound.SoundPlayer;
 import cn.xxx.winkawaks.bounceball.view.BulletImageView;
 
 import java.io.File;
@@ -44,7 +44,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     private TextView currentTextView;
     private GestureDetector mGestureDetector;
     private BulletImageView mBullet;
-    private SoundPlayUtil soundPool;
+    private SoundPlayer soundPool;
     private Boolean soundOn;
 
     private static final String FONTS_FOLDER = "fonts";
@@ -97,7 +97,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
         soundOn = mSharedPreferences.getBoolean("sound", true);
         if (soundOn) {
-            soundPool = new SoundPlayUtil();
+            soundPool = new SoundPlayer();
             soundPool.init(this);
         }
     }
@@ -145,7 +145,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 }, 2500);
                 break;
             case R.id.btn_setting:
-                Intent intent = new Intent(this, TestActivity.class);
+                Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -12,7 +12,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import cn.xxx.winkawaks.bounceball.R;
-import cn.xxx.winkawaks.bounceball.module.service.BGMService;
+import cn.xxx.winkawaks.bounceball.module.sound.BGMService;
 import cn.xxx.winkawaks.bounceball.utils.LaunchEmailUtil;
 
 /**
