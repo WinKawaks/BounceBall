@@ -33,6 +33,8 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     public static final int FLAG_OVER = 2;
     public static int score1 = 0;
     public static int score2 = 0;
+    public static int scroll1 = 0;
+    public static int scroll2 = 0;
     public static Boolean CHAPTER_SHOW = false;
 
     private SoundPlayer soundPool;
@@ -295,15 +297,15 @@ public class GameActivity extends Activity implements View.OnTouchListener {
                         break;
                     case MotionEvent.ACTION_MOVE:
                         int x = (int) event.getRawX();
-                        // 获取手指移动的距离
                         int dx = x - x1;
-                        // 得到imageView最开始的各顶点的坐标
+                        scroll1 = modifySpeed(dx);
+
                         int l = mTab1.getLeft();
                         int r = mTab1.getRight();
                         int t = mTab1.getTop();
                         int b = mTab1.getBottom();
+
                         mTab1.layout(l + dx, t, r + dx, b);
-                        // 获取移动后的位置
                         x1 = (int) event.getRawX();
                         break;
                 }
@@ -315,20 +317,30 @@ public class GameActivity extends Activity implements View.OnTouchListener {
                         break;
                     case MotionEvent.ACTION_MOVE:
                         int x = (int) event.getRawX();
-                        // 获取手指移动的距离
                         int dx = x - x2;
+                        scroll2 = modifySpeed(dx);
+
                         int l = mTab2.getLeft();
                         int r = mTab2.getRight();
                         int t = mTab2.getTop();
                         int b = mTab2.getBottom();
-                        // 更改imageView在窗体的位置
+
                         mTab2.layout(l + dx, t, r + dx, b);
-                        // 获取移动后的位置
                         x2 = (int) event.getRawX();
                         break;
                 }
                 break;
         }
         return true;
+    }
+
+    private static int modifySpeed(int speed) {
+        if (speed > 40) {
+            return 40;
+        } else if (speed < -40) {
+            return -40;
+        } else {
+            return speed;
+        }
     }
 }

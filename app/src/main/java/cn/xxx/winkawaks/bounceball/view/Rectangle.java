@@ -18,8 +18,8 @@ public class Rectangle extends View {
     private int mCoordX = 0;
     private int mCoordY = 0;
     private int mRealSize = 40;
-    private int mSpeedX = 3;
-    private int mSpeedY = 3;
+    private int mSpeedX = 0;
+    private int mSpeedY = 5;
 
     private boolean goRight = true;
     private boolean goDown = true;
@@ -104,11 +104,11 @@ public class Rectangle extends View {
             }
         }
 
-        // move the x and y
+        // 移动撞击方块
         if (goRight) {
-            mCoordX += goX;
+            mCoordX += Math.abs(goX);
         } else {
-            mCoordX -= goX;
+            mCoordX -= Math.abs(goX);
         }
         if (goDown) {
             mCoordY += goY;
@@ -155,16 +155,17 @@ public class Rectangle extends View {
         collisionSound(soundOn, soundPlayer);
         switch (direction) {
             case UP:
-                //加速
+                mSpeedX += GameActivity.scroll2;
                 break;
             case DOWN:
-                //加速
+                mSpeedX += GameActivity.scroll1;
                 break;
             case LEFT:
                 break;
             case RIGHT:
                 break;
         }
+        mSpeedY++;
     }
 
     private void collisionSound(Boolean soundOn, SoundPlayer soundPlayer) {
@@ -172,4 +173,5 @@ public class Rectangle extends View {
             soundPlayer.play(2);
         }
     }
+
 }

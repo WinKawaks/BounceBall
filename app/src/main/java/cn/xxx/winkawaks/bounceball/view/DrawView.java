@@ -33,8 +33,6 @@ public class DrawView extends View {
         this.tab1 = tab1;
         this.tab2 = tab2;
         mRectangle = new Rectangle(context, this, tab1, tab2, soundOn, soundPool);
-        mRectangle.setSpeedX(10);
-        mRectangle.setSpeedY(10);
         mRectangle.setX(width / 2 - Rectangle.MAX_SIZE / 2);
         mRectangle.setY(height / 2 - Rectangle.MAX_SIZE / 2);
     }
