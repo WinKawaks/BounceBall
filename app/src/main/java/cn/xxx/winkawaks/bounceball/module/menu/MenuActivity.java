@@ -259,13 +259,13 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("退出游戏？")
-                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            builder.setMessage(R.string.exit_game)
+                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                }).setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.confirm, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     MenuActivity.this.finish();
