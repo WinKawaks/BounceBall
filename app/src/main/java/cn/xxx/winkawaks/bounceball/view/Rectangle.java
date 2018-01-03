@@ -74,18 +74,18 @@ public class Rectangle extends View {
     private void moveTo(int goX, int goY) {
 
         //碰撞右侧
-        if (mCoordX > (mDrawView.width - MAX_SIZE)) {
+        if (mCoordX >= (mDrawView.width - MAX_SIZE)) {
             goRight = false;
             collision(RIGHT);
         }
         //碰撞左侧
-        if (mCoordX < 0) {
+        if (mCoordX <= 0) {
             goRight = true;
             collision(LEFT);
         }
         //碰撞下方
-        if (mCoordY > (mDrawView.height - MAX_SIZE - tab1.getHeight())) {
-            if (tab1.getLeft() <= mCoordX + MAX_SIZE && tab2.getRight() >= mCoordX) {
+        if (mCoordY >= (mDrawView.height - MAX_SIZE - tab1.getHeight())) {
+            if (tab1.getLeft() <= mCoordX + MAX_SIZE && tab1.getRight() >= mCoordX) {
                 goDown = false;
                 mInnerPaint.setARGB(ALPHA, 255, 255, 255);
                 collision(DOWN);
@@ -94,7 +94,7 @@ public class Rectangle extends View {
             }
         }
         //碰撞上方
-        if (mCoordY < tab2.getHeight()) {
+        if (mCoordY <= tab2.getHeight()) {
             if (tab2.getLeft() <= mCoordX + MAX_SIZE && tab2.getRight() >= mCoordX) {
                 goDown = true;
                 mInnerPaint.setARGB(ALPHA, 0, 0, 0);

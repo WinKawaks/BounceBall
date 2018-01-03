@@ -31,6 +31,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     private static int currentTime = 1;
     public static final int FLAG_PAUSE = 1;
     public static final int FLAG_OVER = 2;
+    public static Boolean CHAPTER_SHOW = false;
 
     private SoundPlayer soundPool;
     private DrawView mDrawView;
@@ -143,7 +144,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mChapterView.getVisibility() == View.VISIBLE) {
+            if (CHAPTER_SHOW) {
             } else {
                 dialogPop(this, FLAG_OVER, 4, 3, soundOn, soundPool, mDrawView);
             }
@@ -248,6 +249,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
 
     private void chapterShow() {
         DrawView.STOP = true;
+        CHAPTER_SHOW = true;
         AlphaAnimation alphaAnimation = (AlphaAnimation) AnimationUtils.loadAnimation(this, R.anim.chapter_anim);
         mChapterView.startAnimation(alphaAnimation);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -259,6 +261,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mChapterView.setVisibility(View.GONE);
+                CHAPTER_SHOW = false;
                 mController1.setVisibility(View.VISIBLE);
                 mController2.setVisibility(View.VISIBLE);
                 DrawView.STOP = false;
