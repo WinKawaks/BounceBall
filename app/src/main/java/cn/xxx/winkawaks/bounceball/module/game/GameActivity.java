@@ -31,6 +31,8 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     private static int currentTime = 1;
     public static final int FLAG_PAUSE = 1;
     public static final int FLAG_OVER = 2;
+    public static int score1 = 0;
+    public static int score2 = 0;
     public static Boolean CHAPTER_SHOW = false;
 
     private SoundPlayer soundPool;
@@ -96,6 +98,8 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         currentTime = intent.getIntExtra("current", 1);
+        score1 = intent.getIntExtra("score1", 0);
+        score2 = intent.getIntExtra("score2", 0);
         Display display = getWindowManager().getDefaultDisplay();
 
         SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
@@ -127,7 +131,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         super.onStop();
         if (DrawView.STOP) {
         } else {
-            dialogPop(this, FLAG_PAUSE, 4, 3, soundOn, soundPool, mDrawView);
+            dialogPop(this, FLAG_PAUSE, score1, score2, soundOn, soundPool, mDrawView);
         }
         if (soundOn) {
             soundPool.unload();
@@ -146,7 +150,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (CHAPTER_SHOW) {
             } else {
-                dialogPop(this, FLAG_OVER, 4, 3, soundOn, soundPool, mDrawView);
+                dialogPop(this, FLAG_PAUSE, score1, score2, soundOn, soundPool, mDrawView);
             }
         }
         return true;
@@ -175,9 +179,13 @@ public class GameActivity extends Activity implements View.OnTouchListener {
                         currentTime++;
                         Intent intent = new Intent(context, GameActivity.class);
                         intent.putExtra("current", currentTime);
+                        intent.putExtra("score1", score1);
+                        intent.putExtra("score2", score2);
                         context.startActivity(intent);
                     } else {
                         currentTime = 1;
+                        GameActivity.score1 = 0;
+                        GameActivity.score2 = 0;
                         ((Activity) context).finish();
                     }
                 }
@@ -190,6 +198,8 @@ public class GameActivity extends Activity implements View.OnTouchListener {
                     soundPlayer.play(4);
                 }
                 currentTime = 1;
+                GameActivity.score1 = 0;
+                GameActivity.score2 = 0;
                 dialog.dismiss();
                 ((Activity) context).finish();
             }

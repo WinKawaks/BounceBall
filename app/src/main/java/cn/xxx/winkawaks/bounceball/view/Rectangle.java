@@ -90,7 +90,7 @@ public class Rectangle extends View {
                 mInnerPaint.setARGB(ALPHA, 255, 255, 255);
                 collision(DOWN);
             } else {
-                GameActivity.dialogPop(mContext, GameActivity.FLAG_OVER, 4, 3, soundOn, soundPlayer, mDrawView);
+                GameActivity.dialogPop(mContext, GameActivity.FLAG_OVER, GameActivity.score1, GameActivity.score2 + 1, soundOn, soundPlayer, mDrawView);
             }
         }
         //碰撞上方
@@ -100,7 +100,7 @@ public class Rectangle extends View {
                 mInnerPaint.setARGB(ALPHA, 0, 0, 0);
                 collision(UP);
             } else {
-                GameActivity.dialogPop(mContext, GameActivity.FLAG_OVER, 4, 3, soundOn, soundPlayer, mDrawView);
+                GameActivity.dialogPop(mContext, GameActivity.FLAG_OVER, GameActivity.score1 + 1, GameActivity.score2, soundOn, soundPlayer, mDrawView);
             }
         }
 
