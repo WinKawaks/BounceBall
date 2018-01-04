@@ -152,13 +152,17 @@ public class Rectangle extends View {
     }
 
     private void collision(int direction) {
-        collisionSound(soundOn, soundPlayer);
+        if (soundOn) {
+            soundPlayer.play(2);
+        }
         switch (direction) {
             case UP:
-                mSpeedX += GameActivity.scroll2;
+                int speedUp = mSpeedX + GameActivity.scroll2;
+                mSpeedX = GameActivity.modifySpeed(speedUp);
                 break;
             case DOWN:
-                mSpeedX += GameActivity.scroll1;
+                int speedDown = mSpeedX + GameActivity.scroll1;
+                mSpeedX = GameActivity.modifySpeed(speedDown);
                 break;
             case LEFT:
                 break;
@@ -166,12 +170,6 @@ public class Rectangle extends View {
                 break;
         }
         mSpeedY++;
-    }
-
-    private void collisionSound(Boolean soundOn, SoundPlayer soundPlayer) {
-        if (soundOn) {
-            soundPlayer.play(2);
-        }
     }
 
 }

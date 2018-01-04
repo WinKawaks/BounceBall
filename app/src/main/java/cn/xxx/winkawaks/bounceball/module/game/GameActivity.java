@@ -118,32 +118,23 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
-        soundOn = mSharedPreferences.getBoolean("sound", true);
-        if (soundOn) {
-            soundPool = new SoundPlayer();
-            soundPool.init(this);
-        }
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         if (DrawView.STOP) {
         } else {
             dialogPop(this, FLAG_PAUSE, score1, score2, soundOn, soundPool, mDrawView);
         }
-        if (soundOn) {
-            soundPool.unload();
-        }
-        soundPool = null;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (soundOn) {
+            soundPool.unload();
+        }
+        scroll1 = 0;
+        scroll2 = 0;
+        soundPool = null;
         mDrawView = null;
     }
 
@@ -334,11 +325,11 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         return true;
     }
 
-    private static int modifySpeed(int speed) {
-        if (speed > 40) {
-            return 40;
-        } else if (speed < -40) {
-            return -40;
+    public static int modifySpeed(int speed) {
+        if (speed > 10) {
+            return 10;
+        } else if (speed < -10) {
+            return -10;
         } else {
             return speed;
         }
