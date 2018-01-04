@@ -102,6 +102,8 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         currentTime = intent.getIntExtra("current", 1);
         score1 = intent.getIntExtra("score1", 0);
         score2 = intent.getIntExtra("score2", 0);
+        scroll1 = 0;
+        scroll2 = 0;
         Display display = getWindowManager().getDefaultDisplay();
 
         SharedPreferences mSharedPreferences = getSharedPreferences("WinKawaks", Context.MODE_PRIVATE);
@@ -132,8 +134,6 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         if (soundOn) {
             soundPool.unload();
         }
-        scroll1 = 0;
-        scroll2 = 0;
         soundPool = null;
         mDrawView = null;
     }
