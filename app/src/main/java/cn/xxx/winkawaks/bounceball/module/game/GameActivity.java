@@ -97,6 +97,8 @@ public class GameActivity extends Activity implements View.OnTouchListener {
 
         Intent intent = this.getIntent();
         times = intent.getIntExtra("item", 0) * 2 + 3;
+        scroll1 = 0;
+        scroll2 = 0;
         Display display = getWindowManager().getDefaultDisplay();
         mDrawView.init(this, display.getWidth(), display.getHeight(), mTab1, mTab2, soundOn, soundPool);
         mDrawView.setBackground(currentTime);
