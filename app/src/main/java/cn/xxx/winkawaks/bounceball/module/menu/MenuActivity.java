@@ -153,6 +153,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            mBtnSelect.setBackground(getResources().getDrawable(R.drawable.button_circle));
+            mBtnSelect.setTextColor(Color.WHITE);
+        }
         return mGestureDetector.onTouchEvent(event);
     }
 
@@ -196,7 +200,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onLongPress(MotionEvent e) {
-
     }
 
     @Override
@@ -205,10 +208,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public static Bitmap scaleImg(Bitmap bm, int newWidth, int newHeight) {
-        // 图片源
-        // Bitmap bm = BitmapFactory.decodeStream(getResources()
-        // .openRawResource(id));
-        // 获得图片的宽高
         int width = bm.getWidth();
         int height = bm.getHeight();
 
