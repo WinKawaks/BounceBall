@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -21,6 +23,8 @@ import cn.xxx.winkawaks.bounceball.module.sound.SoundPlayer;
 import cn.xxx.winkawaks.bounceball.view.DrawView;
 import cn.xxx.winkawaks.bounceball.view.MyDialog;
 
+import java.io.File;
+
 /**
  * Created by 54713 on 2017/10/17.
  */
@@ -36,6 +40,9 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     public static int scroll1 = 0;
     public static int scroll2 = 0;
     public static Boolean CHAPTER_SHOW = false;
+    private static final String FONTS_FOLDER = "fonts";
+    private static final String FONT_PEN = FONTS_FOLDER
+        + File.separator + "pen.ttf";
 
     private SoundPlayer soundPool;
     private DrawView mDrawView;
@@ -68,6 +75,11 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         mTVChapterTitle = (TextView) findViewById(R.id.chapter_title);
         mTVChapterSubtitle = (TextView) findViewById(R.id.chapter_subtitle);
         mTVChapterAbstract = (TextView) findViewById(R.id.chapter_abstract);
+        AssetManager assets = getAssets();
+        final Typeface font = Typeface.createFromAsset(assets,
+            FONT_PEN);
+        mTVChapterAbstract.setTypeface(font);
+
         mChapterView = (LinearLayout) findViewById(R.id.chapter_view);
         mTab1 = findViewById(R.id.tab_1);
         mTab2 = findViewById(R.id.tab_2);
